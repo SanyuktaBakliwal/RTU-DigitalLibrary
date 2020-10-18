@@ -1,49 +1,59 @@
-#include <stdio.h>
-#define __STDC_LIMIT_MACROS
-#include <stdint.h>
-
-void Swap(int *a,int *b)
+#include<stdio.h>
+void quicksort(int number[20],int first,int last)
 {
-	int temp;
-	temp=*a;
-	*a=*b;
-	*b=temp;
+  	 int i, j, p, temp;
+  	 if(first<last)
+   {
+   	 p=first;
+      	 i=first;
+     	 j=last;
+	while(i<j)
+      	{
+         	while(number[i]<=number[p]&&i<last)
+           	i++;
+         	while(number[j]>number[p])
+            	j--;
+      		if(i<j)
+         	{
+            		temp=number[i];
+            		number[i]=number[j];
+           		 number[j]=temp;
+        	 }
+     	 }
+   		 temp=number[p];
+    		 number[p]=number[j];
+      		 number[j]=temp;
+      		 quicksort(number,first,j-1);
+       		 quicksort(number,j+1,last);
+
+   }
 }
 
-int Partition(int A[],int l,int h)
-{
-	int pivot=A[l];
-	int i=l,j=h;
-	do
-	{
-		do{i++;}while(A[i]<=pivot);
-		do{j--;}while(A[j]>=pivot);
-		if(i<j)Swap(&A[i],&A[j]);
-	}while(i<j);
-	Swap(&A[l],&A[j]);
-	return j;
-}
+int main( )
 
-void QuickSort(int A[],int l,int h)
-{
-	int j;
-	if(l<h)
 	{
-		j=Partition(A,l,h);
-		QuickSort(A,l,j);
-		QuickSort(A,j+1,h);
+
+   		int i, count, number[20];
+		printf("How many elements do you want to enter: \n");
+   		scanf("%d",&count);
+   		printf("Enter %d elements: \n", count);
+   		for(i=0;i<count;i++)
+	     	{
+      		    scanf("%d",&number[i]);
+		}
+   		quicksort(number,0,count-1);
+
+
+
+
+
+
+
+   		printf("Order of Sorted elements: ");
+   		for(i=0;i<count;i++)
+		{
+      			printf(" %d",number[i]);
+		}
+                      return 0;
 	}
-}
 
-int main()
-{
-    int A[]={23,27,1,78,54,67,43,90,INT32_MAX},n=9,i;
-    printf("Before performing Quick Sort:\n");
-    for(i=0;i<n-1;i++)
-    	printf("%d\t",A[i]);
-	QuickSort(A,0,n-1);
-    printf("\nAfter performing Quick Sort:\n");
-    for(i=0;i<n-1;i++)
-    	printf("%d\t",A[i]);
-    return 0;
-}
